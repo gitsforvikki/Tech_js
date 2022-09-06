@@ -160,7 +160,8 @@ const getStudentData = (stu_roll)=>{
           let stuBiodata  = {
             name : "vikash",
             agr :24
-          }
+          } //suppose this stuBiodata comming from the server
+          
           
           resolve(` student roll number ${stu_roll} and student name ${stuBiodata.name} of age ${stuBiodata.age} yrs.`)
       },2000 , stu_roll);
