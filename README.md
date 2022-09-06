@@ -193,3 +193,54 @@ let consumePromise =  async ()=>{
   consumePromise();
   ```
 
+
+# combine multiple promises
+
+
+ > Sometimes, you need all the promises to be fulfilled, but they don't depend on each other. 
+  In a case like that, it's much more efficient to start them all off together, then be notified
+   when they have all fulfilled.
+  Promise.all() methode you need here.
+
+  > fulfilled when and if all the promises in the array are fulfilled. In this case, the .then() 
+  handler is called with an array of all the responses, in the same order that the promises were 
+  passed into all().
+  
+  > rejected when and if any of the promises in the array are rejected. 
+  In this case, the catch() handler is called with the error thrown by the promise that rejected.
+  
+  ```javascript
+  const fetchPromise1 = fetch('https://jsonplaceholder.typicode.com/users/');
+const fetchPromise2 = fetch('https://jsonplaceholder.typicode.com/posts');
+const fetchPromise3 = fetch('https://jsonplaceholder.typicode.com/todos');
+
+Promise.all([fetchPromise1, fetchPromise2, fetchPromise3])
+  .then((responses) => {
+    for (const response of responses) {
+      console.log(`${response.url}: ${response.status}`);
+    }
+  })
+  .catch((error) => {
+    console.error(`Failed to fetch: ${error}`)
+  });
+  ```
+  
+  > If we try the same code with a badly formed URL, like this:
+
+```javascript
+ const fetchPromise1 = fetch('https://jsonplaceholder.typicode.com/use.......');
+const fetchPromise2 = fetch('https://jsonplaceholder.typicode.com/posts');
+const fetchPromise3 = fetch('https://jsonplaceholder.typicode.com/todos');
+
+Promise.all([fetchPromise1, fetchPromise2, fetchPromise3])
+  .then((responses) => {
+    for (const response of responses) {
+      console.log(`${response.url}: ${response.status}`);
+    }
+  })
+  .catch((error) => {
+    console.error(`Failed to fetch: ${error}`)
+  });
+  
+  //Failed to fetch: TypeError: Failed to fetch
+  ```
