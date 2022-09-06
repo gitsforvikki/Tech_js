@@ -135,3 +135,60 @@ const consumer = () => {
 consumer();
 
 ```
+
+
+# How to handle dependent promises
+
+```javascript
+    //dependent promises
+    //promise produce or execute
+
+  let promiseObj = new Promise((resolve , reject)=>{
+    setTimeout(()=>{
+      let roll_no =[1,2,3,4,5];  //supose this roll number coming from the server.
+      resolve(roll_no);
+    },2000);
+  });
+```
+> now the bellow promise is depends on the first promise.
+its take a student roll number as a parameter.
+
+```javascript
+const getStudentData = (stu_roll)=>{
+    return new Promise((resolve , reject)=>{
+      setTimeout((stu_roll)=>{
+          let stuBiodata  = {
+            name : "vikash",
+            agr :24
+          }
+          
+          resolve(` student roll number ${stu_roll} and student name ${stuBiodata.name} of age ${stuBiodata.age} yrs.`)
+      },2000 , stu_roll);
+    });
+  };
+  
+  ```
+  
+  > NOw handle the promise without `async/await`
+
+```javascript
+    promiseObj.then((res)=>{
+        console.log(res);
+         return getStudentData(res[1])
+      }).then((result)=>{
+        console.log(result);
+      }).catch((error)=>{ console.log(error)});
+
+  ```
+> Now handle the promise using `async/await`
+
+```javascript
+let consumePromise =  async ()=>{
+      const resp = await promiseObj;
+      console.log(resp);
+      const biodata = await getStudentData(resp[1]);
+      console.log(biodata);
+  };
+  consumePromise();
+  ```
+
