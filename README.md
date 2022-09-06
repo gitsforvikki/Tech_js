@@ -196,6 +196,7 @@ let consumePromise =  async ()=>{
 
 # combine multiple promises
 
+## Promise.all()
 
  > Sometimes, you need all the promises to be fulfilled, but they don't depend on each other. 
   In a case like that, it's much more efficient to start them all off together, then be notified
@@ -249,3 +250,22 @@ Promise.all([fetchPromise1, fetchPromise2, fetchPromise3])
   
   //Failed to fetch: TypeError: Failed to fetch
   ```
+## Promise.any()
+
+>Sometimes, you might need any one of a set of promises to be fulfilled, and don't care which one. In that case, you want Promise.any(). This is like Promise.all(), except that it is fulfilled as soon as any of the array of promises is fulfilled, or rejected if all of them are rejected:
+
+```javascript
+const fetchPromise1 = fetch('https://jsonplaceholder.typicode.com/users/');
+const fetchPromise2 = fetch('https://jsonplaceholder.typicode.com/posts');
+const fetchPromise3 = fetch('https://jsonplaceholder.typicode.com/todos');
+
+Promise.any([fetchPromise1, fetchPromise2, fetchPromise3])
+  .then((response) => {
+    console.log(`${response.url}: ${response.status}`);
+  })
+  .catch((error) => {
+    console.error(`Failed to fetch: ${error}`)
+  });
+  ```
+  - In this case you can not predict which promise fulfill first.
+  - 
