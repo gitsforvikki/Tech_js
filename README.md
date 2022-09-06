@@ -223,6 +223,11 @@ Promise.all([fetchPromise1, fetchPromise2, fetchPromise3])
   .catch((error) => {
     console.error(`Failed to fetch: ${error}`)
   });
+  
+    //https://jsonplaceholder.typicode.com/users/: 200
+    //app.js:475 https://jsonplaceholder.typicode.com/posts: 200
+    //app.js:475 https://jsonplaceholder.typicode.com/todos: 200
+  
   ```
   
   > If we try the same code with a badly formed URL, like this:
