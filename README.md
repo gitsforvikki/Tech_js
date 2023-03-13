@@ -352,3 +352,11 @@ let getName = () => {
 ```
 Hence, In the case of arrow function, If you are trying to access before it's definition it behaive like a variable not like function. 
 
+
+### Undefined and not defined
+
+Undefined is a special keyword which assign to a variable to there memory location untill unless any particular value assigned to it.
+but, not defined i.e reference error means there is no any existance of the variable in the particular scope.
+
+
+
