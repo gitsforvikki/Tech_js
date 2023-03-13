@@ -606,6 +606,74 @@ setTimeout() function takes two parameters the first one is a callback function 
 
 The browser or the nodeJS engine will not wait for the setTimeout() function to execute its callback function. In the meantime, it'll move to the next statement and execute that, in our case, that is console.log("End");.
 
+### First class function/citizen
+
+The ability of a function to use as a value means assign to a variable, pass as a argument to another function,return from a function etc, is known as first class function.
+
+When functions in a programming language are treated like any other variable then that programming language is known to have first-class functions. In javascript, the functions are known as the first-class citizens, which means functions can do what any other variables can. First-class functions javascript get this ability by treating the functions as an object.
+
+***Examples for First Class Functions Javascript***
+
+Following are the examples where we treat the functions as the first class functions in javascript.
+
+Example 1: Assign function to a variable In the following coding example you can see how to assign the function to a variable.
+
+```javascript
+const myVariable = function () { // Assigning a function to a variable
+    console.log("Inside the function...");
+ }
+
+ myVariable(); // Invoking the function using the variable
+
+//output -   Inside the function...
+
+```
 
 
 
+
+```javascript
+function wishHappyNewYear() {
+    return "Happy New Year, ";
+}
+ 
+// Here in `wishMessage` we receive the function as a parameter.
+function wishPerson(wishMessage, name) { 
+   console.log(wishMessage() + name + '!!!');
+ }
+
+ // Pass `wishHappyNewYear` as an argument to the `wishPerson` function
+ wishPerson(wishHappyNewYear, "John Doe");
+
+//Happy New Year, John Doe!!!
+
+```
+
+```javascript
+function sayHello() {
+    // returning the function
+    return function() {
+       console.log("Hello!");
+    }
+ }
+
+// Storing the returned function in the `newFun` variable
+const newFun = sayHello();
+
+// Calling the function which returned function with `newFun`
+newFun();
+
+```
+
+```javascript
+function sayHello() {
+    // returning the function
+    return function() {
+       console.log("Hello!");
+    }
+ }
+
+// Calling returned function using double parentheses
+sayHello()();
+
+```
