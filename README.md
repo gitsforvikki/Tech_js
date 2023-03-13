@@ -358,5 +358,136 @@ Hence, In the case of arrow function, If you are trying to access before it's de
 Undefined is a special keyword which assign to a variable to there memory location untill unless any particular value assigned to it.
 but, not defined i.e reference error means there is no any existance of the variable in the particular scope.
 
+### var,let and const explanation
+
+var is the keyword used for declare a variable in javascript.
+Before ES6 var declaration ruled.
+
+***Scope of var***
+Scope essentially means where these variables are available for use. var declarations are globally scoped or function/locally scoped.
+The scope is global when a var variable is declared outside a function. This means that any variable that is declared with var outside a function block is available for use in the whole window.
+var is function scoped when it is declared within a function. This means that it is available and can be accessed only within that function.
 
 
+var variables can be re-declared and updated
+This means that we can do this within the same scope and won't get an error.
+
+```javascript
+    var greeter = "hey hi";
+    var greeter = "say Hello instead";
+    
+    //or we can do this like also
+     var greeter = "hey hi";
+    greeter = "say Hello instead";
+
+```
+
+***Hoisting of var***
+Hoisting is a JavaScript mechanism where variables and function declarations are moved to the top of their scope before code execution. This means that if we do this:
+```javascript
+ console.log (greeter);
+    var greeter = "say hello"
+
+```
+
+it is interpreted as this:
+
+```javascript
+    var greeter;
+    console.log(greeter); // greeter is undefined
+    greeter = "say hello"
+    
+```
+   So var variables are hoisted to the top of their scope and initialized with a value of undefined.
+   
+***Problem with var***
+There's a weakness that comes with  var. I'll use the example below to explain:
+```javascript
+    var greeter = "hey hi";
+    var times = 4;
+
+    if (times > 3) {
+        var greeter = "say Hello instead"; 
+    }
+    
+    console.log(greeter) // "say Hello instead"
+```
+
+***Let***
+
+let is now preferred for variable declaration. It's no surprise as it comes as an improvement to var declarations.
+  
+  ***let is block scoped***
+  
+A block is a chunk of code bounded by {}. A block lives in curly braces. Anything within curly braces is a block.
+
+So a variable declared in a block with let  is only available for use within that block. Let me explain this with an example:
+
+
+***let can be updated but not re-declared***
+
+Just like var,  a variable declared with let can be updated within its scope. Unlike var, a let variable cannot be re-declared within its scope. So while this will work:
+
+```javascript
+let greeting = "say Hi";
+    greeting = "say Hello instead";
+    
+//this will return an error:
+
+    let greeting = "say Hi";
+    let greeting = "say Hello instead"; // error: Identifier 'greeting' has already been declared
+
+```
+
+However, if the same variable is defined in different scopes, there will be no error:
+
+   ```javascript
+   let greeting = "say Hi";
+    if (true) {
+        let greeting = "say Hello instead";
+        console.log(greeting); // "say Hello instead"
+    }
+    console.log(greeting); // "say Hi"
+```
+
+***Hoisting of let***
+
+Just like  var, let declarations are hoisted to the top. Unlike var which is initialized as undefined, the let keyword is not initialized. So if you try to use a let variable before declaration, you'll get a Reference Error.
+
+
+***Const***
+Variables declared with the const maintain constant values. const declarations share some similarities with let declarations.
+
+***const declarations are block scoped***
+Like let declarations, const declarations can only be accessed within the block they were declared.
+
+
+***const cannot be updated or re-declared***
+
+This means that the value of a variable declared with const remains the same within its scope. It cannot be updated or re-declared. So if we declare a variable with const, we can neither do this:
+
+
+```javascript
+const greeting = "say Hi";
+    greeting = "say Hello instead";// error: Assignment to constant variable. 
+
+
+//nor this:
+
+    const greeting = "say Hi";
+    const greeting = "say Hello instead";// error: Identifier 'greeting' has already been declared
+
+```
+Every const declaration, therefore, must be initialized at the time of declaration.
+
+***Hoisting of const***
+Just like let, const declarations are hoisted to the top but are not initialized.
+
+
+### So just in case you missed the differences, here they are:
+
+- var declarations are globally scoped or function scoped while let and const are block scoped.
+- var variables can be updated and re-declared within its scope; let variables can be updated but not re-declared; const variables can neither be updated   nor re-declared.
+
+- They are all hoisted to the top of their scope. But while var variables are initialized with undefined, let and const variables are not initialized.
+- While var and let can be declared without being initialized, const must be initialized during declaration.
