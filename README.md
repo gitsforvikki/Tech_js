@@ -311,9 +311,9 @@ sayHelloClosure(); // ‘Hello, world!’
  Hoisting is a concept in javascript by which you can access variables and function even before its initialized it.
  Take a look at these examples
  
- *** example-1***
+ ***example-1***
  ```javascript
- let x= 10;
+ var x= 10;
 function getName(){
     console.log("vikki");
 }
@@ -329,9 +329,26 @@ getName(); // output vikki
 console.log(x); //output undefined
 
 getName(); // output vikki
- let x= 10;
+ var x= 10;
 function getName(){
     console.log("vikki");
 }
 
 ```
+***NOTE***
+
+Any variable is giving undefined in logs means memory allocated for the variable but not assigned any value to it.
+but if a variable show "not defined" that is reference error means variable has no any existance. it has no memory allocation yet.
+
+
+- In case of arrow function 
+```javascript
+getName();
+let getName = () => {
+    console.log("vikki");
+}
+
+// TypeError:- getName is not a function
+```
+Hence, In the case of arrow function, If you are trying to access before it's definition it behaive like a variable not like function. 
+
