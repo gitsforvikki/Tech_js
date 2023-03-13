@@ -268,4 +268,46 @@ Promise.any([fetchPromise1, fetchPromise2, fetchPromise3])
   });
   ```
   - In this case you can not predict which promise fulfill first.
-  - 
+  
+  
+  
+  
+  ### Closure
+  
+  Functions and its lexical scope bundled together forms a closure.
+  In other words, a closure gives you access to an outer function’s scope from an inner function. 
+  ```javascript
+  function x(){
+  let a=7;
+  function y(){
+        console.log(a);
+    }
+    return y;
+  }
+  
+  //now calling the outer function 
+  var z = x();
+  //after to many lines of code
+  
+  z();  //output will be 7
+  
+  ```
+When a function return, it remember its lexical scope means from where it was actually returned.
+In the given example, When we return from function x, It's execution context would be vanised but the inner function y still remembered or maintain there lexical scope. This concept is known as ***Closure***.
+
+
+```javascript
+function sayHello() {
+  var say = function() { console.log(hello); }
+  // Local variable that ends up within the closure 
+  var hello = 'Hello, world!';
+  return say;
+}
+var sayHelloClosure = sayHello(); 
+sayHelloClosure(); // ‘Hello, world!’
+```
+
+### Hoisting
+ Hoisting is a concept in javascript by which you can access variables and function even before its initialized it.
+ Take a look at these examples
+ 
