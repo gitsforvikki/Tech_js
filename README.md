@@ -677,3 +677,86 @@ function sayHello() {
 sayHello()();
 
 ```
+### function statement
+A function statement (also known as a function definition or function declaration) consists of the function keyword, followed by:
+
+- The function name
+- The parameter list(enclosed in parentheses)
+- The javascript statements that defines the function (enclosed in curly braces{})
+
+
+For example:
+```javascript
+function add(a,b){
+return a+b;
+}
+console.log(add(5,10))
+
+```
+
+### function expression
+
+Function assign to a variable,It's act like a variable, known as function expression.
+```javascript
+let sayHi = function() {
+  alert( "Hello" );
+};
+
+sayHi();
+
+```
+### Diff. between function statement and function expression
+
+The main difference is hoisting.
+You can access function statement before it's declaration but cat't access function expression before declaration. It will throw typeError i.e not a function.
+
+### Anonymous function
+
+Anonymous functions in JavaScript, are the functions that do not have any name or identity. Just like, you have a name by which everyone calls you or identifies you. But, the anonymous functions, do not have any name, so we cannot call them like any other function in JavaScript.
+
+Below given is the syntax for the anonymous function in JavaScript --
+```javascript
+let variableName = function () {
+    //your code here
+}
+
+variableName();     //Can call the anonymous function through this
+```
+
+***Explanation:***
+We write the anonymous function in Javascript by writing function() followed by the parentheses, where we may pass the parameters, and skipping the function name. Then in a pair of curly braces {}, we write our desired code. Finally, we assign this function to a variable. We can later use the variable whenever we need the value of the anonymous function.
+
+Example-2
+```javascript
+button.addEventListener('click', 
+    function(event) {
+    alert('Button is clicked!')
+})
+
+```
+### Arrow function
+Arrow functions are another great use case for anonymous functions in javascript. Arrow functions provide a shorthand way of declaring anonymous functions. They were introduced as part of ES6.
+
+
+***Examples of Arrow functions***
+
+After having studied in detail the arrow functions in JavaScript, let us now see some examples which will further enhance our understanding.
+
+```javascript
+let x = a => a * a;	//Example of single param & single line code
+console.log(x(10));
+
+//output 100
+```
+
+```javascript
+let x = (a,n) => {
+    let pow = 1;
+    for(let i = 0; i < n; i++){
+	    pow = pow * a;
+	}
+    return pow;
+};
+console.log(x(10,3));
+
+```
