@@ -491,3 +491,32 @@ Just like let, const declarations are hoisted to the top but are not initialized
 
 - They are all hoisted to the top of their scope. But while var variables are initialized with undefined, let and const variables are not initialized.
 - While var and let can be declared without being initialized, const must be initialized during declaration.
+
+### let and const hoisting
+
+let and const declaration are  hoisted but they are hoisted very differently.These are in temporal deadzone for the time being.
+
+***Take the example***
+```javascript
+
+console,log(b);
+let a = 10;
+console.log(a);
+var b=20;
+
+
+```
+Even before executing single line of code,these are the seen of the browser scope
+- Script
+
+    a:undefined
+    
+ - Global  
+
+    b: undefined
+    
+Here we can see that a is not in the global object. It is not in the something else that is script. So Whenever we will try to acess let declaration. It will show reference error because it will be unable to find out in the global object.
+
+***Temporal Dead Zone***
+The time period from hoisting till variable assign some value,that time period is known as temporal dead zone.
+When a variable in temporal dead zone one can't access them because  that will throw reference error.
