@@ -520,3 +520,92 @@ Here we can see that a is not in the global object. It is not in the something e
 ***Temporal Dead Zone***
 The time period from hoisting till variable assign some value,that time period is known as temporal dead zone.
 When a variable in temporal dead zone one can't access them because  that will throw reference error.
+
+### Callback
+A callback function in javascript is a function that is passed as an argument in another function. Which is then called inside the parent function to complete a routine or an action. To put it more simply, it is a function that will be called(executed) later after its parent function(the function in which it is passed as an argument) is done executing.
+
+Lets take a example
+```javascript
+
+function sum(a, b) {
+  console.log(a + b)
+}
+
+function operation(val1, val2, callback) {
+  callback(val1, val2)
+}
+
+operation(6, 5, sum)
+
+```
+In the above code, we can see in the function operation the third parameter is a callback function. We are first passing the "callback" as an argument and then calling it inside the parent function i.e.i.e., operation.
+
+***Need for Callback Functions***
+
+Javascript is a single-threaded language, which means, it executes the code sequentially one line after another. However, there are some cases in which a part of the code will only run after some lines of code, i.e. it is dependent on another function. This is called asynchronous programming.
+
+- We need callback functions to make sure that a function is only going to get executed after a specific task is completed and not before its completion.
+
+        - For instance, in the case of an event listener, we first listen for a specific event, and if the function detects it, then only the callback function is executed. It's just like when you go into a restaurant, the function(action) to make a pizza will only run after you order a pizza. And in the meantime, the restaurant staff(browser or nodeJS) will do some other work.
+
+- Callback functions are also needed to prevent running into errors because of the non-availability of some data that are needed by some other function.
+
+            - For example, when a function fetches some data from an API that takes some time to get downloaded. We use the callback function here so that the function that needs the data will only get executed when all the required data is downloaded.
+
+1. Synchronous Callback Function
+The code executes sequentially - synchronous programming.
+
+```javascript
+console.log('Start')
+
+function divide(a, b) {
+  console.log(a / b)
+}
+
+function operation(val1, val2, callback) {
+  callback(val1, val2)
+}
+
+operation(16, 4, divide)
+
+console.log('End')
+
+//output
+//Start
+//4
+//End
+
+
+```
+
+2. setTimeout() - Asynchronous Callback Function
+
+```javascript
+console.log('Start')
+
+setTimeout(() => {
+  console.log('We are in the setTimeout()')
+}, 4000)
+
+console.log('End')
+
+
+//output
+//Start
+//End
+//We are in the setTimeout()
+
+
+```
+
+***Let's see it in detail :***
+
+Here, as we can see the code is not running sequentially. The console.log("End"); statement get executed before the setTimeout() function. This is called asynchronous programming.
+
+setTimeout() function takes two parameters the first one is a callback function and the second parameter is the time value in milliseconds. The callback function will get executed after the amount of time specified in the second parameter.
+
+The browser or the nodeJS engine will not wait for the setTimeout() function to execute its callback function. In the meantime, it'll move to the next statement and execute that, in our case, that is console.log("End");.
+
+
+
+
