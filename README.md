@@ -311,3 +311,27 @@ sayHelloClosure(); // ‘Hello, world!’
  Hoisting is a concept in javascript by which you can access variables and function even before its initialized it.
  Take a look at these examples
  
+ *** example-1***
+ ```javascript
+ let x= 10;
+function getName(){
+    console.log("vikki");
+}
+
+console.log(x); //output 10
+
+getName(); // output vikki
+```
+
+***example-2***
+
+```javascript
+console.log(x); //output undefined
+
+getName(); // output vikki
+ let x= 10;
+function getName(){
+    console.log("vikki");
+}
+
+```
