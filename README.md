@@ -544,13 +544,14 @@ In the above code, we can see in the function operation the third parameter is a
 
 Javascript is a single-threaded language, which means, it executes the code sequentially one line after another. However, there are some cases in which a part of the code will only run after some lines of code, i.e. it is dependent on another function. This is called asynchronous programming.
 
+
 - We need callback functions to make sure that a function is only going to get executed after a specific task is completed and not before its completion.
 
-        - For instance, in the case of an event listener, we first listen for a specific event, and if the function detects it, then only the callback function is executed. It's just like when you go into a restaurant, the function(action) to make a pizza will only run after you order a pizza. And in the meantime, the restaurant staff(browser or nodeJS) will do some other work.
+> For instance, in the case of an event listener, we first listen for a specific event, and if the function detects it, then only the callback function is executed. It's just like when you go into a restaurant, the function(action) to make a pizza will only run after you order a pizza. And in the meantime, the restaurant staff(browser or nodeJS) will do some other work.
 
 - Callback functions are also needed to prevent running into errors because of the non-availability of some data that are needed by some other function.
 
-            - For example, when a function fetches some data from an API that takes some time to get downloaded. We use the callback function here so that the function that needs the data will only get executed when all the required data is downloaded.
+> For example, when a function fetches some data from an API that takes some time to get downloaded. We use the callback function here so that the function that needs the data will only get executed when all the required data is downloaded.
 
 1. Synchronous Callback Function
 The code executes sequentially - synchronous programming.
