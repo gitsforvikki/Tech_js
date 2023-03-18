@@ -761,3 +761,9 @@ let x = (a,n) => {
 console.log(x(10,3));
 
 ```
+
+
+### How Does Code Execute in Javascript?
+
+To maintain the order of what’s currently running, Javascript uses a stack while executing the code.
+executions happen inside execution contexts, executions contexts as javascript objects that contain the execution of code. Functions have local executions contexts which are generated when the functions are called and everything else is run on the global execution context.
