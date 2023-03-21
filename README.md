@@ -814,4 +814,43 @@ Doing things” in Javascript is achieved using a call stack and JS Engine. Whil
 
 
 
+### But Where is Concurrency?
+Concurrency is the ability to do multiple things at once. It comes with asynchronicity which is an important concept in present-day javascript. It brings along another special data structure called a callback queue. Let’s try to understand with a classic example of setTimeout.
+
+setTimeout introduces most of the developers to asynchronicity in javascript. It accepts two parameters, a callback function and time in milliseconds.
+
+Back to an Example:
+
+
+```javascript
+console.log("Start")
+setTimeOut(function delayThis(){console.log(”This will be delayed”)}, 5000)
+console.log("End")
+
+```
+What do you think will be out of the above lines of code?
+
+
+- Whenever setTimeOut is called, the call stack now contains setTimeOut and waits for the delay to happen before moving on to the next line.
+
+- When setTimeout is called, the function call goes to the top of the call stack but is immediately popped. The next line gets executed immediately 	(without waiting for the delay)
+
+
+
+
+Let’s try to understand the order of execution here. When the code begins executing, the first thing that is logged on the console is “Start”. This is pretty obvious.
+
+When the control comes to the second line, setTimeout is called and a callback function is registered for future execution.
+
+The control does not wait for the delay to happen. Essentially delay does not mean “a delay in the program” rather it means “a delay in execution of the callback function”. Both are very different things.Next up the control immediately moves to the third line
+
+***Note***
+
+
+Note: Not all callbacks have same priority. Some callbacks use a special queue known as the micro task queue/Job queue which has higher priority order than the callback queue. It introduces more interesting concepts like starvation in a queue.
+
+### Event Loop in JavaScript
+
+
+![event-loop](https://user-images.githubusercontent.com/52384251/226544789-d4afcda4-ae7b-49a1-b7ea-201e9fc84961.png)
 
