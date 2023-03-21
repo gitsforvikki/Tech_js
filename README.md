@@ -767,3 +767,51 @@ console.log(x(10,3));
 
 To maintain the order of what’s currently running, Javascript uses a stack while executing the code.
 executions happen inside execution contexts, executions contexts as javascript objects that contain the execution of code. Functions have local executions contexts which are generated when the functions are called and everything else is run on the global execution context.
+
+
+The execution context of the code currently being executed will be on top of the stack. Once it is done executing, the execution context is popped out of the stack. This data structure is famously known as the call stack.
+
+
+Let’s understand with an example:
+
+```javascript
+let sayHello = (name) ⇒ { console.log(`Hello ${name}` };
+let sayBye = (name) ⇒{ console.log(`Bye ${name}` } ;
+let communicate() = (thingToSay) = {console.log(`${thingsToSay`)};
+console.log(”Communication Started”);
+sayHello("Harsh");
+communicate("This is how code is executed in JS");
+sayBye("Harsh");
+console.log(”Communication Over”);
+
+```
+Doing things” in Javascript is achieved using a call stack and JS Engine. While JS Engine executes the code, the call stack maintains the order of execution.At the top of the stack is the object representing the call in current execution, which upon completion/termination will be popped out and the control will be passed to the next call/ execution context.
+
+
+
+![callstack](https://user-images.githubusercontent.com/52384251/226542352-de53312e-c2da-44c3-be6d-8b9c69b35f78.png)
+
+
+- Here’s what shall happen during the execution of the above code.
+
+1. A global execution context is created and immediately put on the call stack which was earlier empty. Once the context is in the call stack the JS engine begins executing the code.
+
+2. When the control starts with line 4, it logs “Communication Started” on the console.
+
+3. On line 5, the control finds a function invocation that creates a local execution context, immediately the execution context of sayHello is put on top of the call stack.
+
+4. S Engine will only execute the code within the context of the top element of the stack and hence the code inside sayHello begins executing and “Hello Harsh” is printed on the console.
+
+5. Since there is no code to further execute The context of sayHello is popped out of the stack and the control moves to the next line.
+
+6. The control finds another function invocation and the process from 3 to 5 happens for the communication function. As a result “This is how code is executed in JS” is printed on the console.
+
+7. When control reaches the next line, a similar process follows, and “Bye Harsh” is printed on the console.
+
+8. Now, the control is back with the global execution context which was only half done executing. The control starts executing from where it left off and “Communication Over” is logged
+
+9. Since there is no code left in the global execution context, that is always popped out of the call stack and call stack is empty.
+
+
+
+
