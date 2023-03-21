@@ -851,6 +851,26 @@ Note: Not all callbacks have same priority. Some callbacks use a special queue k
 
 ### Event Loop in JavaScript
 
+![event-loop](https://user-images.githubusercontent.com/52384251/226545252-e4f55618-fb20-4112-83d4-a7c2ecca515e.png)
 
-![event-loop](https://user-images.githubusercontent.com/52384251/226544789-d4afcda4-ae7b-49a1-b7ea-201e9fc84961.png)
 
+
+We know by this point that JS Engine and the call stack are the primary things responsible for running the javascript code. In order for the code to be executed, it has to be brought on the call stack for JS Engine to execute it.
+
+Now recall the callback function in the example above. Last we heard of it was when it was in some fancy new memory unit called the callback queue. After 10 seconds have passed, it has to be executed. Event loop in JavaScript is such a mechanism which handles this. This means it manages the lifecycle of a callback function from the callback queue to the call stack.
+
+### But How does it work?
+Let’s begin by stating the universal truth - “A call stack will have to be empty for the event loop to bring anything in it”.
+
+Whenever the call stack is empty, the first entered unit in the callback queue is brought to the call stack by the event loop which was observing both the call stack and callback queue.
+
+### Did You Notice?
+
+setTimeout of an ‘n’ seconds does not guarantee execution exactly when ‘n’ seconds have passed, rather it guarantees a minimum delay of ‘n’. This is because after a defined limit, the callback function moves to the callback queue (stating ready for execution) where the event loop is supposed to pick it for actual execution.
+
+> Conclusion
+- JS is single threaded. It has only one call stack.
+- Execution of code in javascript is always line by line.
+- Code in javascript is executed by JS Engine which uses the call stack to determine the order of execution.
+- Event loop in JavaScript is a mechanism through which the ‘calls waiting for execution’ in the callback queue/job queue can be put on the call stack.
+- For any event from the callback queue/job queue to come to call stack, the call stack will have to be empty.
