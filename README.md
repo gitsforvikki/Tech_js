@@ -864,6 +864,55 @@ Let’s begin by stating the universal truth - “A call stack will have to be e
 
 Whenever the call stack is empty, the first entered unit in the callback queue is brought to the call stack by the event loop which was observing both the call stack and callback queue.
 
+Stack: This is where all your javascript code gets pushed and executed one by one as the interpreter reads your program, and gets popped out once the execution is done. If your statement is asynchronous: setTimeout, ajax(), promise, or click event, then that code gets forwarded to Event table, this table is responsible for moving your asynchronous code to callback/event queue after specified time.
+
+Heap: This is where all the memory allocation happens for your variables, that you have defined in your program.
+
+Callback Queue: This is where your asynchronous code gets pushed to, and waits for the execution.
+
+Event Loop: Then comes the Event Loop, which keeps running continuously and checks the Main stack, if it has any frames to execute, if not then it checks Callback queue, if Callback queue has codes to execute then it pops the message from it to the Main Stack for the execution.
+
+Job Queue: Apart from Callback Queue, browsers have introduced one more queue which is “Job Queue”, reserved only for new Promise() functionality. So when you use promises in your code, you add .then() method, which is a callback method. These `thenable` methods are added to Job Queue once the promise has returned/resolved, and then gets executed.
+
+Quick Question now: Check these statements for example, can you predict the sequence of output?:
+
+```javascript
+console.log('Message no. 1: Sync');
+setTimeout(function() {
+   console.log('Message no. 2: setTimeout');
+}, 0);
+var promise = new Promise(function(resolve, reject) {
+   resolve();
+});
+promise.then(function(resolve) {
+   console.log('Message no. 3: 1st Promise');
+})
+.then(function(resolve) {
+   console.log('Message no. 4: 2nd Promise');
+});
+console.log('Message no. 5: Sync');
+```
+Some of you might answer this:
+```javascript
+// Message no. 1: Sync
+// Message no. 5: Sync
+// Message no. 2: setTimeout
+// Message no. 3: 1st Promise
+// Message no. 4: 2nd Promise
+
+```
+because setTimeout was pushed to Callback Queue first, then promise was pushed. But this is not the case, the output will be:
+```javascript
+// Message no. 1: Sync
+// Message no. 5: Sync
+// Message no. 3: 1st Promise
+// Message no. 4: 2nd Promise
+// Message no. 2: setTimeout
+```
+All `thenable` callbacks of the promise are called first, then the setTimeout callback is called.
+
+Why?: Job Queue has high priority in executing callbacks, if event loop tick comes to Job Queue, it will execute all the jobs in job queue first until it gets empty, then will move to callback queue.
+
 ### Did You Notice?
 
 setTimeout of an ‘n’ seconds does not guarantee execution exactly when ‘n’ seconds have passed, rather it guarantees a minimum delay of ‘n’. This is because after a defined limit, the callback function moves to the callback queue (stating ready for execution) where the event loop is supposed to pick it for actual execution.
