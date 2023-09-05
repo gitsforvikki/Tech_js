@@ -975,3 +975,21 @@ const debouncedSearchData = debounce(searchData, 3000);
 debouncedSearchData();
 ```
 Now, whenever we call ```debouncedSearchData```, it will not execute ```searchDataimmediately```, but wait for 3 seconds. If ```debouncedSearchData``` is called again within 3 seconds, it will reset the timer and wait for another 3 seconds. Only when 3 seconds have passed without any new calls to ```debouncedSearchData```, it will finally execute ```searchData```.
+
+
+
+
+
+
+##What is throttling
+Throttling is also used to rate-limit the function call. Throttling will fire the function call only once in 1000ms(the limit which we have provided), no matter how many times the user fires the function call.
+
+![image](https://github.com/gitsforvikki/Tech_js/assets/52384251/653ee35c-e0f0-4517-ba78-90a22db0344a)
+
+### Custom Throttling function
+![image](https://github.com/gitsforvikki/Tech_js/assets/52384251/ef712a39-67d8-4c7b-a4fb-9080a732cade)
+
+### Conclusion
+I hope after reading this article these two concepts by javascript are cleared.
+
+Throttling and debouncing can be implemented to enhance the searching functionality, infinite scroll, and resizing of the window.
