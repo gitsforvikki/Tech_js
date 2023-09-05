@@ -962,7 +962,7 @@ const debounce = (mainFunction, delay) => {
 
 ### Using wrapping function with debounce
 
-```javascipt
+```javascript
 // Define a function called 'searchData' that logs a message to the console
 function searchData() {
   console.log("searchData executed");
