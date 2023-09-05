@@ -1045,3 +1045,36 @@ This stage is where the browser calculates the size and position of each visible
 
 ### Paint
 When we get to the paint stage, the browser has to pick up the layout result, and paint the pixels to the screen, beware in this stage that not all styles have the same paint times, also combinations of styles can have a greater paint time than the sum of their parts. For an instance mixing a border-radius with a box-shadow, can triple the paint time of an element instead of using just one of the latter.
+
+## Difference Between ‘async’ and ‘defer’ Attributes in JavaScript
+
+‘async’ and ‘defer’ are boolean attributes which we use along with script tags to load external javascript libraries efficiently into our web page.
+
+### How things work without these attributes?
+When the web page is loaded, the web browser looks at the entire HTML document and looks for any CSS, JavaScript and images that are referenced by that page. This is what we refer as HTML Parsing. If resources are found in the HTML, the web browser then requests each of those resource files from the server. Once the web browser has the required resources it can start building the page.
+
+Now one of the important things is how the scripts are loaded. Typically JavaScript is considered as a Parser blocking language. Why? Lets understand this.
+
+![image](https://github.com/gitsforvikki/Tech_js/assets/52384251/6f91429d-779b-4498-9ee7-48e87733ae62)
+
+
+The web browser starts parsing the HTML and it gets paused when the script tag is reached (here I am strictly talking about external JS Files and not the inline scripts). At that point, parsing of HTML is blocked and browser makes a request to fetch/download the respective script file. Once the script is fetched, it gets executed and then HTML parsing resumes again.
+
+
+But this is not good as the JavaScript files are blocking the rendering of HTML. So this is where we can introduce our two attributes ‘async’ and ‘defer’.
+
+### How to use ‘async’ attributes?
+
+
+
+![image](https://github.com/gitsforvikki/Tech_js/assets/52384251/3202e3f1-d752-40fe-ba8a-e43b0444c126)
+
+With async (asynchronous) attribute, the HTML parsing continues until the browser fetches the script file over the network so parsing and script fetching happens in parallel (as shown in the figure below). Once the scripts are available in the browser, HTML parsing is paused and scripts are executed. Once the execution is complete, HTML parsing continues.
+
+### How to use ‘defer’ attributes?
+![image](https://github.com/gitsforvikki/Tech_js/assets/52384251/29f7ad61-bdf4-4b1a-aad7-fcb9853fd7ce)
+
+The word ‘defer’ in English means to ‘hold back’. So with defer attribute mentioned in the script tag, the script files are downloaded in parallel while the HTML parsing continues. But the execution is deferred until the HTML parsing is done. In simple words, the downloaded scripts are executed only when the browser finishes its HTML parsing.
+
+### When to use ‘async’ and when to use ‘defer’?
+Well, you can use async attribute when your page does not depend on the script files (for example analytics). Why? Because async cannot guarantee the order in which your scripts files will be downloaded. So if there is any dependency amongst your script files, it may break your code. In such cases you can use defer attribute.
