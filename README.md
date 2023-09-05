@@ -923,3 +923,55 @@ setTimeout of an ‘n’ seconds does not guarantee execution exactly when ‘n�
 - Code in javascript is executed by JS Engine which uses the call stack to determine the order of execution.
 - Event loop in JavaScript is a mechanism through which the ‘calls waiting for execution’ in the callback queue/job queue can be put on the call stack.
 - For any event from the callback queue/job queue to come to call stack, the call stack will have to be empty.
+
+
+
+
+
+## Debouncing in javaScript
+
+![image](https://github.com/gitsforvikki/Tech_js/assets/52384251/2d250c54-4534-4e11-bcb9-38a3afba5bb1)
+
+### What is debouncing?
+Debouncing is a way of delaying the execution of a function until a certain amount of time has passed since the last time it was called. This can be useful for scenarios where we want to avoid unnecessary or repeated function calls that might be expensive or time-consuming.
+
+For example, imagine we have a search box that shows suggestions as the user types. If we call a function to fetch suggestions on every keystroke, we might end up making too many requests to the server, which can slow down the application and waste resources. Instead, we can use debouncing to wait until the user has stopped typing for a while before making the request.
+
+### How to implement debouncing in JavaScript?
+There are different ways to implement debouncing in JavaScript, but one common approach is to use a wrapper function that returns a new function that delays the execution of the original function. The wrapper function also keeps track of a timer variable that is used to clear or reset the delay whenever the new function is called.
+
+
+```javascript
+const debounce = (mainFunction, delay) => {
+  // Declare a variable called 'timer' to store the timer ID
+  let timer;
+
+  // Return an anonymous function that takes in any number of arguments
+  return function (...args) {
+    // Clear the previous timer to prevent the execution of 'mainFunction'
+    clearTimeout(timer);
+
+    // Set a new timer that will execute 'mainFunction' after the specified delay
+    timer = setTimeout(() => {
+      mainFunction(...args);
+    }, delay);
+  };
+};
+
+```
+
+### Using wrapping function with debounce
+
+```javascipt
+// Define a function called 'searchData' that logs a message to the console
+function searchData() {
+  console.log("searchData executed");
+}
+
+// Create a new debounced version of the 'searchData' function with a delay of 3000 milliseconds (3 seconds)
+const debouncedSearchData = debounce(searchData, 3000);
+
+// Call the debounced version of 'searchData'
+debouncedSearchData();
+```
+Now, whenever we call ```debouncedSearchData```, it will not execute ```searchDataimmediately```, but wait for 3 seconds. If ```debouncedSearchData``` is called again within 3 seconds, it will reset the timer and wait for another 3 seconds. Only when 3 seconds have passed without any new calls to ```debouncedSearchData```, it will finally execute ```searchData```.
