@@ -1256,3 +1256,33 @@ Jack
 
 In the above example, we have two objects ```student1 and student2```. ```student1``` has a method ```getName``` and the this inside this method shall refer to the ```student1``` object itself. This is because in JavaScript ```this``` keyword inside the object's method refers to the owner object. Now in order to set the reference of this inside the method of ```student1 ``` to another object, (student2 in this case), we have used the ```bind()``` method. As a parameter to the ```bind()``` method, ```student2``` is passed. Thus, the reference of this is set according to the specified value.
 
+### A note about arrow functions
+It's important to notice this because, for example, if we try to implement an arrow function to it as an object method, we won't be able to access the object through the this keyword:
+
+```javascript
+const person = {
+    name: 'Pedro',
+    surname: 'Sanchez',
+    sayName: () => this.name + ' ' + this.surname
+}
+
+console.log(person.sayName());
+//output
+undefined
+```
+
+### A note about strict-mode
+When using strict-mode, calling this within a function will return undefined.
+
+```javascript
+"use strict";
+
+function show() {
+    console.log(this);
+}
+
+show();
+
+//output
+unefined
+```
