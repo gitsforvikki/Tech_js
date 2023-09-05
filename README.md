@@ -1078,3 +1078,181 @@ The word ‘defer’ in English means to ‘hold back’. So with defer attribut
 
 ### When to use ‘async’ and when to use ‘defer’?
 Well, you can use async attribute when your page does not depend on the script files (for example analytics). Why? Because async cannot guarantee the order in which your scripts files will be downloaded. So if there is any dependency amongst your script files, it may break your code. In such cases you can use defer attribute.
+
+
+## How to Use the "this" Keyword in JavaScript
+
+In JavaScript, the this keyword is a reference variable to the current object. Basically, it refers to the object which is defining the current context. In simple words, it points to the object which is executing the current piece of JavaScript Code this keyword in JavaScript can be used in global and function contexts. this takes different values in various scenarios. Let us dive in and learn more!
+
+ ```this``` keyword in JavaScript, as a reference variable points to an object, according to the context it was defined.
+
+### Global Context
+Global execution context basically means everything out of any function, in other words, the global scope. In Global Context, this refers to the global object for example in a browser, it is the window object or global object on Node.js.
+```javascript
+console.log(this === window) 
+
+//Output: true
+```
+
+True is returned since this refers to the window object.
+
+If any property is assigned to this object in the global context, JavaScript will add it to the window object. This is because the global object and window object both imply the same as discussed above.
+```javascript
+this.name= 'James';
+ console.log(window.name); // 'James'
+
+// Output:James
+```
+In the above case, ```window.name``` returns the value assigned to ```this.name```.
+
+ Let us take an example to understand better:
+
+```javascript
+//variable declared in a global scope
+var name = "James";
+
+function Employee() {
+    var name = "Jack"; 
+    console.log("name: " + name); 
+//this here refers to the global object 
+    console.log("this.name = " + this.name); 
+}
+
+Employee(); //can be considered as window.Employee()
+
+//output
+
+Jack
+James
+
+
+```
+In the above example, the function "Employe()" is being called in the global scope i.e. in the context of the window object. Hence, this can be alternatively called as window.Employee(). Thus, the this keyword in the function shall refer to the window object as well. Hence this.name returns James. Whereas, for the local scope if the variable is called i.e without this, it refers to the local name variable.
+
+### Function Context
+In JavaScript, functions have their own properties. this is one of those properties. Hence, when this is used inside the function, its value will change according to the way the function is defined and invoked as the context also changes accordingly. Basically, invocation means the execution of the code inside the function or calling the functions. This can be done in the following ways:
+
+### Direct Invocation
+It is a simple invocation method where we invoke a function using its name or some expressions that evaluate the function object. Here, this refers to the global object. Let us take an example:
+
+```javascript
+var grade = 10;
+function student() { 
+	console.log(this === window); // true 
+	console.log(this.grade); // 10
+} 
+student();
+}
+
+//output
+true
+10
+```
+
+So, the student() function is invoked through the simple function invocation and hence this refers to the global or window object.
+
+### Indirect Invocation
+In JavaScript, all the functions are instances of the Function type. So basically, Function has two methods that can be used to set the reference of thethis keyword. These are:
+
+- call(): Calls a method using the owner object as a parameter.
+- apply(): Similar to call(), with apply() you can write a method that can be used on different objects.
+When invoked using these methods, it is known as indirect invocation. We shall discuss these methods along with examples in a section ahead
+
+### Invoking Function: call() and apply()
+call() and apply() essentially perform the same task. These methods are called on the function and take different parameters. These help you call or invoke the function indirectly and set the values of the this keyword.
+
+Syntax for call()
+```javascript
+function.call(thisArg,arguments)
+
+```
+
+Parameters for call():
+
+- thisArg: It is the object that this refers to inside the function. It is a compulsory parameter.
+- arguments: These are the function arguments. It is optional in nature.
+
+Syntax for apply()
+
+```javascript
+function.apply(thisArg,arrayOfarguments)
+
+```
+Parameters for apply():
+
+- thisArg: It is the object that this refers to inside the function. It is a compulsory parameter.
+- arrayOfarguments: apply() method takes arguments in form of an array. It is optional in nature.
+
+Let us take an example to understand better!
+
+
+```javascript
+function getDetails(student) {
+    console.log(student + this.Grade);
+}
+
+	let student1 = {
+	    Grade: '10'
+	};
+	let student2 = {
+	    Grade: '8'
+	};
+
+	getBrand.call(student1, "The Grade obtained by James: ");
+	getBrand.apply(student2, ["The Grade obtained by Jack: "]);
+}
+
+
+//output
+The Grade obtained by James: 10
+The Grade obtained by Jack: 8
+
+```
+
+In the above program, we have called the ```getDetails()``` function indirectly using the ```call()``` and ```apply()``` methods. We have passed the ```student1 and student2``` objects as the first argument of the ```call() and apply()``` methods, therefore, the corresponding Grade is obtained in each call. So this refers to the object passed as a parameter in each call. This is how we can set the value of this by indirectly invoking the function.
+
+### Bind()
+call() and apply() can invoke a function but to return a new function that can be stored or passed bind() method is used. bind() was introduced in ECMAScript 5. When a function is invoked, this method sets the reference of this as per the provided value and returns a new function.
+
+Syntax:
+
+The bind method is called on the method as follows:
+
+```javascript
+  function.bind(thisArg , arg1, arg2......)
+
+```
+Parameters:
+
+- thisArg: Object that this shall refer to.
+- arg1, arg2, argN...: These are the function arguments, n in number.
+
+```javascript
+// student1 object with getName() funcn
+
+let student1 = {
+    name: 'James',
+    getName: function () {
+        return this.name;
+    }
+}
+
+// student2 object
+let student2 = {
+    name: 'Jack'
+}
+
+console.log(student1.getName()); //James
+//reference of this defined in student1 is set to student2 object using bind
+let name = student1.getName.bind(student2);
+console.log(name());//Jack
+
+
+//output
+James
+Jack
+
+```
+
+In the above example, we have two objects ```student1 and student2```. ```student1``` has a method ```getName``` and the this inside this method shall refer to the ```student1``` object itself. This is because in JavaScript ```this``` keyword inside the object's method refers to the owner object. Now in order to set the reference of this inside the method of ```student1 ``` to another object, (student2 in this case), we have used the ```bind()``` method. As a parameter to the ```bind()``` method, ```student2``` is passed. Thus, the reference of this is set according to the specified value.
+
