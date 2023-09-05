@@ -993,3 +993,55 @@ Throttling is also used to rate-limit the function call. Throttling will fire th
 I hope after reading this article these two concepts by javascript are cleared.
 
 Throttling and debouncing can be implemented to enhance the searching functionality, infinite scroll, and resizing of the window.
+
+
+
+
+## Critical rendering path
+The Critical Rendering Path is the sequence of steps the browser goes through to convert the HTML, CSS, and JavaScript into pixels on the screen. Optimizing the critical render path improves render performance.
+The critical rendering path includes the Document Object Model (DOM), CSS Object Model (CSSOM), render tree and layout.
+
+### How does the browser rendering engine work?
+In order to render content the browser has to go through a series of steps:
+1. Document Object Model(DOM)
+2. CSS object model(CSSOM)
+3. Render Tree
+4. Layout
+5. Paint.
+
+![image](https://github.com/gitsforvikki/Tech_js/assets/52384251/2970fb2e-8de6-4853-98ed-2976fdfcda5d)
+
+### Document Object Model (DOM)
+When we request data from server using URL ,we receive the response in the form of HTTP messages which consists of three parts Start line,Header files and Body.
+The start line and headers are textual and the body can contain arbitrary binary data(images,videos,audio) as well as text.
+
+Once the browser receives the response (HTML markup text) , browser must convert all the markup into something which we usually see on or screens.
+
+The browser follows well defined set of steps and it starts with processing the HTML and building the DOM.
+
+Convert bytes to characters
+Identify tokens
+Convert tokens to nodes
+Build DOM Tree
+
+
+When this process is finished the browser will have the full content of the page, but to be able to render the browser has to wait for the CSS Object Model, also known as CSSOM event, which will tell the browser how the elements should look like when rendered.
+
+### CSS Object Model
+Just as with HTML, the CSS rules need to be converted into something that the browser understands, so these rules go through the same steps as the document object model.
+
+1. Convert bytes to characters
+2. Identify tokens
+3. Convert tokens to nodes
+4. Build CSSOM
+
+In this stage the CSS parser goes through each node and gets the styles attributed to it.
+
+###  The Render Tree
+This stage is where the browser combines the DOM and CSSOM, this process outputs a final render tree, which contains both the content and the style information of all the visible content on the screen.
+
+### Layout
+This stage is where the browser calculates the size and position of each visible element on the page, every time an update to the render tree is made, or the size of the viewport changes, the browser has to run layout again.
+
+### Paint
+When we get to the paint stage, the browser has to pick up the layout result, and paint the pixels to the screen, beware in this stage that not all styles have the same paint times, also combinations of styles can have a greater paint time than the sum of their parts. For an instance mixing a border-radius with a box-shadow, can triple the paint time of an element instead of using just one of the latter.
