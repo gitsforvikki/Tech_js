@@ -981,7 +981,7 @@ Now, whenever we call ```debouncedSearchData```, it will not execute ```searchDa
 
 
 
-##What is throttling
+## What is throttling
 Throttling is also used to rate-limit the function call. Throttling will fire the function call only once in 1000ms(the limit which we have provided), no matter how many times the user fires the function call.
 
 ![image](https://github.com/gitsforvikki/Tech_js/assets/52384251/653ee35c-e0f0-4517-ba78-90a22db0344a)
