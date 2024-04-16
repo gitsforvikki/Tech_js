@@ -1198,8 +1198,8 @@ function getDetails(student) {
 	    Grade: '8'
 	};
 
-	getBrand.call(student1, "The Grade obtained by James: ");
-	getBrand.apply(student2, ["The Grade obtained by Jack: "]);
+	getDetails.call(student1, "The Grade obtained by James: ");
+	getDetails.apply(student2, ["The Grade obtained by Jack: "]);
 }
 
 
