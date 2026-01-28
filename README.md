@@ -1031,17 +1031,87 @@ Only one api call.
 
 
 ## What is throttling
+Throttling ensures a function runs at most once in a fixed time interval, no matter how many times the event fires.
 Throttling is also used to rate-limit the function call. Throttling will fire the function call only once in 1000ms(the limit which we have provided), no matter how many times the user fires the function call.
 
 ![image](https://github.com/gitsforvikki/Tech_js/assets/52384251/653ee35c-e0f0-4517-ba78-90a22db0344a)
 
-### Custom Throttling function
-![image](https://github.com/gitsforvikki/Tech_js/assets/52384251/ef712a39-67d8-4c7b-a4fb-9080a732cade)
+🔥 When to use throttle
 
-### Conclusion
-I hope after reading this article these two concepts by javascript are cleared.
+Best for:
 
-Throttling and debouncing can be implemented to enhance the searching functionality, infinite scroll, and resizing of the window.
+Scroll events
+
+Resize events
+
+Mouse move
+
+Button spam prevention
+
+❌ Not ideal for search inputs (we’ll see why)
+
+### ✅ Throttle implementation (NO prebuilt helpers)
+```javascript
+function throttle(fn, limit) {
+  let lastCall = 0;
+
+  return function (...args) {
+    const now = Date.now();
+
+    if (now - lastCall >= limit) {
+      lastCall = now;
+      fn.apply(this, args);
+    }
+  };
+}
+```
+### Actual api function
+```javascript
+function searchUsers(query) {
+  console.log("API CALL:", query);
+  // fetch(`/api/search?q=${query}`)
+}
+```
+### Wrap with throttle 
+```javascript
+const throttledSearch = throttle(searchUsers, 500);
+```
+### Atached to input
+```javascript
+const input = document.getElementById("search");
+
+input.addEventListener("keyup", (e) => {
+  throttledSearch(e.target.value);
+});
+```
+## 🔁 Debounce vs Throttle
+
+Both **debouncing** and **throttling** are techniques used to control how frequently a function executes when an event fires repeatedly (such as `keyup`, `scroll`, or `resize`).
+
+### Key Differences
+
+| Feature | Debounce | Throttle |
+|------|---------|---------|
+| Execution | Runs **after the event stops firing** for a given delay | Runs **at fixed time intervals** |
+| Function Calls | Usually **1 call** after user stops | **Multiple calls**, but rate-limited |
+| Best Use Case | Search input, auto-save, form validation | Scroll, resize, mouse move |
+| UX for Search | ✅ Best (avoids partial queries) | ❌ Poor (fires with incomplete input) |
+| Performance | Prevents unnecessary calls completely | Limits calls to a safe rate |
+
+### 🧠 When to use what?
+
+- **Use Debounce when:**
+  - You only care about the **final result**
+  - Example: Search suggestions, username availability check
+
+- **Use Throttle when:**
+  - You need **continuous updates**, but not too frequently
+  - Example: Infinite scroll, window resize handling
+
+### 📝 One-line summary
+
+> **Debounce waits, then executes once. Throttle executes immediately, then waits.**
+
 
 
 
