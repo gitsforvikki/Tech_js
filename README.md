@@ -1245,8 +1245,146 @@ Jack
 James
 
 
-```
 In the above example, the function "Employe()" is being called in the global scope i.e. in the context of the window object. Hence, this can be alternatively called as window.Employee(). Thus, the this keyword in the function shall refer to the window object as well. Hence this.name returns James. Whereas, for the local scope if the variable is called i.e without this, it refers to the local name variable.
+
+
+
+### 📌 call, apply, and bind in JavaScript
+🧠 Why do we need them?
+
+In JavaScript, this does NOT refer to where a function is defined,
+it refers to how the function is called.
+
+call, apply, and bind let you explicitly control what this refers to.
+
+🎯 Core definition (one-liner)
+
+call, apply, and bind are methods used to manually set the this value of a function.
+
+### 🧩 Understanding this first (IMPORTANT)
+```javascript
+const user = {
+  name: "Vikash",
+  greet() {
+    console.log(this.name);
+  }
+};
+
+user.greet(); // Vikash
+```
+Now detach the function 👇
+```javascript
+const greetFn = user.greet;
+greetFn(); // undefined (or error in strict mode)
+```
+❌ this is lost
+
+👉 This is where call, apply, bind help.
+avaScript provides three methods for manipulating the this keyword in functions: call(), apply(), and bind(). These methods allow you to change the context of the this keyword, which can be useful for controlling the behaviour of functions.
+### call(); (Call Method)
+The call() method allows you to call a function with a specified this value and arguments provided individually. The first argument to call() sets the this value for the function being called, and the remaining arguments are passed to the function as arguments.
+```javascript
+function.call(thisArg, arg1, arg2, ...)
+```
+
+Calls the function immediately
+
+Arguments are passed one by one
+
+Sets this explicitly
+#### ✅ Example
+```javascript
+function greet(city, country) {
+  console.log(
+    `Hi, I am ${this.name} from ${city}, ${country}`
+  );
+}
+
+const user = { name: "Vikash" };
+greet.call(user, "Delhi", "India");
+```
+### output
+ Hi, I am Vikash from Delhi, India
+ 
+🧠 When to use call
+Borrow methods
+Invoke function immediately
+Pass arguments individually
+
+### apply(); (Apply Method)
+The apply() method is similar to the call() method, but it takes an array of arguments instead of individual arguments. The first argument to apply() sets the this value for the function being called, and the second argument is an array of arguments to pass to the function
+
+#### ✅ Example
+
+```javascript
+function greet(city, country) {
+  console.log(
+    `Hi, I am ${this.name} from ${city}, ${country}`
+  );
+}
+
+const user = { name: "Vikash" };
+
+greet.apply(user, ["Mumbai", "India"]);
+```
+### bind(); (Bind Method)
+The bind() method returns a new function with a specified this value and any arguments that are passed to it. The bind() method does not call the function immediately but instead returns a new function that can be called later.
+
+Does NOT call the function immediately
+Returns a new function
+this is permanently bound
+
+```javascrpt
+function greet(city) {
+  console.log(`Hi ${this.name} from ${city}`);
+}
+
+const user = { name: "Vikash" };
+
+const boundGreet = greet.bind(user, "Bangalore");
+
+boundGreet(); // Hi Vikash from Bangalore
+```
+### 🧠 Why bind is important
+Example: Event handlers
+```javascript
+const button = {
+  text: "Click me",
+  handleClick() {
+    console.log(this.text);
+  }
+};
+
+setTimeout(button.handleClick, 1000);
+// ❌ undefined
+
+setTimeout(button.handleClick.bind(button), 1000);
+// ✅ Click me
+```
+
+
+## 📊 Comparison Table
+
+| Feature              | call              | apply             | bind               |
+|----------------------|-------------------|-------------------|--------------------|
+| Invokes immediately  | ✅ Yes             | ✅ Yes             | ❌ No              |
+| Returns function     | ❌ No              | ❌ No              | ✅ Yes             |
+| Argument style       | Comma-separated   | Array             | Both               |
+| Use case             | Immediate call    | Dynamic arguments | Reusable function  |
+
+### 🔥 Method Borrowing Example
+```javascript
+const user1 = { name: "A" };
+const user2 = { name: "B" };
+
+function sayHi() {
+  console.log("Hi", this.name);
+}
+
+sayHi.call(user1); // Hi A
+sayHi.call(user2); // Hi B
+```
+
 
 ### Function Context
 In JavaScript, functions have their own properties. this is one of those properties. Hence, when this is used inside the function, its value will change according to the way the function is defined and invoked as the context also changes accordingly. Basically, invocation means the execution of the code inside the function or calling the functions. This can be done in the following ways:
