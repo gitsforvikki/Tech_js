@@ -940,42 +940,91 @@ For example, imagine we have a search box that shows suggestions as the user typ
 ### How to implement debouncing in JavaScript?
 There are different ways to implement debouncing in JavaScript, but one common approach is to use a wrapper function that returns a new function that delays the execution of the original function. The wrapper function also keeps track of a timer variable that is used to clear or reset the delay whenever the new function is called.
 
-
+❌ Problem without debouncing
 ```javascript
-const debounce = (mainFunction, delay) => {
-  // Declare a variable called 'timer' to store the timer ID
+<input id="search" placeholder="Search users..." />
+const input = document.getElementById("search");
+
+input.addEventListener("keyup", (e) => {
+  fetch(`/api/search?q=${e.target.value}`);
+});
+
+```
+What actually happens
+
+User types "react"
+
+Keystroke	API Call
+r	/api/search?q=r
+e	/api/search?q=re
+a	/api/search?q=rea
+c	/api/search?q=reac
+t	/api/search?q=react
+
+🔥 5 API calls in < 1 second
+🔥 Backend load
+🔥 UI lag
+
+✅ Correct solution using Debouncing
+```javascript
+function debounce(fn, delay) {
   let timer;
 
-  // Return an anonymous function that takes in any number of arguments
   return function (...args) {
-    // Clear the previous timer to prevent the execution of 'mainFunction'
     clearTimeout(timer);
 
-    // Set a new timer that will execute 'mainFunction' after the specified delay
     timer = setTimeout(() => {
-      mainFunction(...args);
+      fn.apply(this, args);
     }, delay);
   };
-};
-
-```
-
-### Using wrapping function with debounce
-
-```javascript
-// Define a function called 'searchData' that logs a message to the console
-function searchData() {
-  console.log("searchData executed");
 }
 
-// Create a new debounced version of the 'searchData' function with a delay of 3000 milliseconds (3 seconds)
-const debouncedSearchData = debounce(searchData, 3000);
 
-// Call the debounced version of 'searchData'
-debouncedSearchData();
+
 ```
-Now, whenever we call ```debouncedSearchData```, it will not execute ```searchDataimmediately```, but wait for 3 seconds. If ```debouncedSearchData``` is called again within 3 seconds, it will reset the timer and wait for another 3 seconds. Only when 3 seconds have passed without any new calls to ```debouncedSearchData```, it will finally execute ```searchData```.
+This function:
 
+Stores timer in closure
+
+Cancels previous execution
+
+Runs only after delay
+## Actual api function
+```javascript
+function searchUsers(query) {
+  console.log("API CALL:", query);
+  // fetch(`/api/search?q=${query}`)
+}
+```
+## Wrap api call with debounce
+```javascript
+const debouncedSearch = debounce(searchUsers, 500);
+
+```
+## Attached to input event
+```javascript
+const input = document.getElementById("search");
+
+input.addEventListener("keyup", (e) => {
+  debouncedSearch(e.target.value);
+});
+```
+🧪 Timeline (important for understanding)
+
+User types "react" quickly:
+```javascript
+Time(ms)  Event
+0         r   → timer set
+100       e   → timer cleared, new timer
+200       a   → timer cleared, new timer
+300       c   → timer cleared, new timer
+400       t   → timer cleared, new timer
+```
+User stops typing 👇
+```javascript
+900ms → searchUsers("react") runs ONCE
+```
+Only one api call.
 
 
 
