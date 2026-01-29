@@ -1243,10 +1243,103 @@ Employee(); //can be considered as window.Employee()
 
 Jack
 James
-
+```
 
 In the above example, the function "Employe()" is being called in the global scope i.e. in the context of the window object. Hence, this can be alternatively called as window.Employee(). Thus, the this keyword in the function shall refer to the window object as well. Hence this.name returns James. Whereas, for the local scope if the variable is called i.e without this, it refers to the local name variable.
 
+A function with a "this" reference
+In the function above, the this keyword is referring to an object to which it is bound so it gets the `"name"` property from there.
+
+But how do you know which object the function is bound to? How do you find out what this is referring to?
+
+To do so, we need to take a detailed look at how functions are bound to objects.
+
+- Types of Binding in JavaScript
+
+
+
+There are generally four kinds of bindings:
+
+- Default Binding
+- Implicit Binding
+- Explicit Binding
+- Constructor Call Binding
+
+
+### Default Binding in JavaScript
+One of the first rules to remember is that if the function housing a this reference is a standalone function, then that function is bound to the global object.
+
+
+```javascript
+function alert() { 
+  console.log(this.name + ' is calling'); 
+}
+
+const name = 'Kingsley'; 
+alert(); // Kingsley is calling
+
+```
+
+As you can see, `name()` is a standalone, unattached function, so it is bound to the global scope. As a result, the `this.name` reference resolves to the global variable `const name = 'Kingsley'` .
+
+This rule, however, doesn't hold if `name()` were to be defined in strict mode:
+
+```javascript
+function alert() { 
+  'use strict'; 
+  console.log(this.name + ' is calling'); 
+}
+
+const name = 'Kingsley'; 
+alert(); // TypeError: `this` is `undefined`
+
+```
+### Implicit Binding in JavaScript
+
+According to the binding rule in JavaScript, a function can use an object as its context only if that object is bound to it at the call site. This form of binding is known as implicit binding.
+
+here it is what i mean by it
+
+```javascript
+function alert() { 
+  console.log(this.age + ' years old'); 
+}
+
+const myObj = {
+  age: 22,
+  alert: alert
+}
+
+myObj.alert() // 22 years old
+```
+when you call a function using dot notation, this is implicitly bound to the object the function is being called from.
+
+Let's look at another example:
+
+```javascript
+function alert() { 
+  console.log(this.age + ' years old'); 
+}
+
+const myObj = {
+  age: 22,
+  alert: alert,
+  nestedObj: {
+    age: 26,
+    alert: alert
+  }
+}
+
+myObj.nestedObj.alert(); // 26 years old
+myObj.alert(); // `this` is bound to `myObj` -- 22 years old
+
+```
+
+### Explicit binding in JavaScript
+
+if we want to force a function to use an object as its context without putting a property function reference on the object?
+
+We have two utility methods to achieve this: `call()` and `apply()` .
 
 
 ### 📌 call, apply, and bind in JavaScript
@@ -1305,6 +1398,8 @@ greet.call(user, "Delhi", "India");
 ```
 ### output
  Hi, I am Vikash from Delhi, India
+
+
  
 🧠 When to use call
 Borrow methods
@@ -1327,13 +1422,34 @@ const user = { name: "Vikash" };
 
 greet.apply(user, ["Mumbai", "India"]);
 ```
+ #### ✅ Example
+```javascript
+
+var pokemon = {
+    firstname: 'Pika',
+    lastname: 'Chu ',
+    getPokeName: function() {
+        var fullname = this.firstname + ' ' + this.lastname;
+        return fullname;
+    }
+};
+
+var pokemonName = function(snack, hobby) {
+    console.log(this.getPokeName() + ' loves ' + snack + ' and ' + hobby);
+};
+
+pokemonName.call(pokemon,'sushi', 'algorithms'); // Pika Chu  loves sushi and algorithms
+pokemonName.apply(pokemon,['sushi', 'algorithms']); // Pika Chu  loves sushi and algorithms
+
+```
+
 ### bind(); (Bind Method)
 The bind() method returns a new function with a specified this value and any arguments that are passed to it. The bind() method does not call the function immediately but instead returns a new function that can be called later.
 
 Does NOT call the function immediately
 Returns a new function
 this is permanently bound
-
+ #### ✅ Examples
 ```javascrpt
 function greet(city) {
   console.log(`Hi ${this.name} from ${city}`);
@@ -1345,6 +1461,49 @@ const boundGreet = greet.bind(user, "Bangalore");
 
 boundGreet(); // Hi Vikash from Bangalore
 ```
+
+```javascript
+var pokemon = {
+    firstname: 'Pika',
+    lastname: 'Chu ',
+    getPokeName: function() {
+        var fullname = this.firstname + ' ' + this.lastname;
+        return fullname;
+    }
+};
+
+var pokemonName = function() {
+    console.log(this.getPokeName() + 'I choose you!');
+};
+
+var logPokemon = pokemonName.bind(pokemon); // creates new object and binds pokemon. 'this' of pokemon === pokemon now
+
+logPokemon(); // 'Pika Chu I choose you!'
+
+```
+
+```javascript
+var pokemon = {
+    firstname: 'Pika',
+    lastname: 'Chu ',
+    getPokeName: function() {
+        var fullname = this.firstname + ' ' + this.lastname;
+        return fullname;
+    }
+};
+
+var pokemonName = function(snack, hobby) {
+    console.log(this.getPokeName() + 'I choose you!');
+    console.log(this.getPokeName() + ' loves ' + snack + ' and ' + hobby);
+};
+
+var logPokemon = pokemonName.bind(pokemon); // creates new object and binds pokemon. 'this' of pokemon === pokemon now
+
+logPokemon('sushi', 'algorithms'); // Pika Chu  loves sushi and algorithms
+
+```
+
+
 ### 🧠 Why bind is important
 Example: Event handlers
 ```javascript
