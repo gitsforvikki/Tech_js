@@ -208,6 +208,10 @@ Promise.all() runs multiple promises in parallel and:
 
 “I want ALL results. If even one fails → stop everything.”
 
+📌 After resolving:
+👉 Returns ONE promise
+👉 That promise resolves with an ARRAY of all results
+
   ```javascript
 const p1 = new Promise(res => setTimeout(() => res("A"), 1000));
 const p2 = new Promise(res => setTimeout(() => res("B"), 2000));
@@ -266,6 +270,11 @@ Promise.any() resolves when:
 
 🧠 Simple Meaning
 “I just need ONE successful result.”
+
+📌 After resolving:
+👉 Returns ONE promise
+👉 That promise resolves with ONLY the FIRST successful value
+NOT an array.
 
 >Sometimes, you might need any one of a set of promises to be fulfilled, and don't care which one. In that case, you want Promise.any(). This is like Promise.all(), except that it is fulfilled as soon as any of the array of promises is fulfilled, or rejected if all of them are rejected:
 
