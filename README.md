@@ -197,40 +197,36 @@ fetchUserData();
 
 ## Promise.all()
 
- > Sometimes, you need all the promises to be fulfilled, but they don't depend on each other. 
-  In a case like that, it's much more efficient to start them all off together, then be notified
-   when they have all fulfilled.
-  Promise.all() methode you need here.
+📌 Definition
 
-  > fulfilled when and if all the promises in the array are fulfilled. In this case, the .then() 
-  handler is called with an array of all the responses, in the same order that the promises were 
-  passed into all().
-  
-  > rejected when and if any of the promises in the array are rejected. 
-  In this case, the catch() handler is called with the error thrown by the promise that rejected.
-  
+Promise.all() runs multiple promises in parallel and:
+
+👉 Resolves only when ALL promises succeed
+👉 Rejects immediately if ANY one fails
+
+🧠 Simple Meaning
+
+“I want ALL results. If even one fails → stop everything.”
+
   ```javascript
-  const fetchPromise1 = fetch('https://jsonplaceholder.typicode.com/users/');
-const fetchPromise2 = fetch('https://jsonplaceholder.typicode.com/posts');
-const fetchPromise3 = fetch('https://jsonplaceholder.typicode.com/todos');
+const p1 = new Promise(res => setTimeout(() => res("A"), 1000));
+const p2 = new Promise(res => setTimeout(() => res("B"), 2000));
+const p3 = new Promise(res => setTimeout(() => res("C"), 1500));
 
-Promise.all([fetchPromise1, fetchPromise2, fetchPromise3])
-  .then((responses) => {
-    for (const response of responses) {
-      console.log(`${response.url}: ${response.status}`);
-    }
-  })
-  .catch((error) => {
-    console.error(`Failed to fetch: ${error}`)
-  });
-  
-    //https://jsonplaceholder.typicode.com/users/: 200
-    //app.js:475 https://jsonplaceholder.typicode.com/posts: 200
-    //app.js:475 https://jsonplaceholder.typicode.com/todos: 200
+Promise.all([p1, p2, p3])
+  .then(result => console.log(result))
+  .catch(err => console.log(err));
+
+  //output after 2 sec
+["A", "B", "C"]
   
   ```
-  
-  > If we try the same code with a badly formed URL, like this:
+  Notice:
+
+Runs parallel
+Waits for the slowest promise
+
+  > If we try with a badly formed URL, like this:
 
 ```javascript
  const fetchPromise1 = fetch('https://jsonplaceholder.typicode.com/use.......');
@@ -249,7 +245,27 @@ Promise.all([fetchPromise1, fetchPromise2, fetchPromise3])
   
   //Failed to fetch: TypeError: Failed to fetch
   ```
+🧠 Real-Life Example
+
+Loading a webpage:
+```javascript
+Load:
+- User data
+- Posts
+- Comments
+
+All must succeed → use Promise.all()
+```
 ## Promise.any()
+
+📌 Definition
+
+Promise.any() resolves when:
+👉 FIRST promise succeeds
+👉 Ignores failures until all fail
+
+🧠 Simple Meaning
+“I just need ONE successful result.”
 
 >Sometimes, you might need any one of a set of promises to be fulfilled, and don't care which one. In that case, you want Promise.any(). This is like Promise.all(), except that it is fulfilled as soon as any of the array of promises is fulfilled, or rejected if all of them are rejected:
 
@@ -265,10 +281,18 @@ Promise.any([fetchPromise1, fetchPromise2, fetchPromise3])
   .catch((error) => {
     console.error(`Failed to fetch: ${error}`)
   });
+
   ```
-  - In this case you can not predict which promise fulfill first.
-  
-  
+	- In this case you can not predict which promise fulfill first.
+  ❌ If ALL fail
+
+```javascript
+Promise.any([Promise.reject(), Promise.reject()])
+  .catch(err => console.log(err));
+
+//Output:
+AggregateError
+  ```
   
   
   ### Closure
